@@ -2,6 +2,8 @@
 
 import mapped from "./mapped.ts";
 
+const encoder = new TextEncoder();
+
 addEventListener("fetch", async (event) => {
   const url = new URL(event.request.url);
   const dts = url.searchParams.get("dts");
@@ -21,19 +23,19 @@ addEventListener("fetch", async (event) => {
     }
     let dts = res.headers.get("x-typescript-types") ?? undefined;
     let text = await res.text();
-    console.log("before", text);
     for (const [key, value] of mapped) {
       text = text.replaceAll(key, value);
       dts = dts?.replace(key, value);
     }
     text = text.replaceAll("^^HOST^^", url.host);
     dts = dts?.replace("^^HOST^^", url.host);
-    console.log("after", text);
+    const encoded = encoder.encode(text);
     event.respondWith(
-      new Response(text, {
+      new Response(encoded, {
         status: 200,
         headers: {
           ...Object.fromEntries(res.headers.entries()),
+          "content-length": encoded.length + "",
           "x-typescript-types": dts as string,
         },
       }),
