@@ -35,6 +35,8 @@ addEventListener("fetch", async (event) => {
         status: 200,
         headers: {
           ...Object.fromEntries(res.headers.entries()),
+          "x-origin-url": event.request.url,
+          "x-requested-url": origin.toString(),
           "content-length": encoded.length + "",
           "x-typescript-types": dts as string,
         },
