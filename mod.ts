@@ -21,6 +21,7 @@ addEventListener("fetch", async (event) => {
     }
     let dts = res.headers.get("x-typescript-types") ?? undefined;
     let text = await res.text();
+    console.log(text)
     for (const [key, value] of mapped) {
       text = text.replaceAll(key, value);
       dts = dts?.replace(key, value);
