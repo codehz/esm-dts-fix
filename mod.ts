@@ -9,7 +9,7 @@ addEventListener("fetch", async (event) => {
   const dts = url.searchParams.get("dts");
   if (!dts) {
     const origin = url.pathname.startsWith("/_/")
-      ? new URL(url.pathname.substr(11), "https://cdn.esm.sh/")
+      ? new URL(url.pathname.substr(2), "https://cdn.esm.sh/")
       : new URL(url.pathname, "https://esm.sh/");
     origin.search = url.search;
     const res = await fetch(origin, {
