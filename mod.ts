@@ -21,13 +21,14 @@ addEventListener("fetch", async (event) => {
     }
     let dts = res.headers.get("x-typescript-types") ?? undefined;
     let text = await res.text();
-    console.log(text)
+    console.log("before", text);
     for (const [key, value] of mapped) {
       text = text.replaceAll(key, value);
       dts = dts?.replace(key, value);
     }
     text = text.replaceAll("^^HOST^^", url.host);
     dts = dts?.replace("^^HOST^^", url.host);
+    console.log("after", text);
     event.respondWith(
       new Response(text, {
         status: 200,
