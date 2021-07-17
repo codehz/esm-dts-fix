@@ -47,7 +47,7 @@ addEventListener("fetch", async (event) => {
           "x-origin-url": event.request.url,
           "x-requested-url": origin.toString(),
           "content-length": encoded.length + "",
-          "x-typescript-types": dts as string,
+          ...(dts ? { "x-typescript-types": dts } : {}),
         },
       }),
     );
