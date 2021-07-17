@@ -18,7 +18,16 @@ addEventListener("fetch", async (event) => {
       },
     });
     if (res.status != 200) {
-      event.respondWith(res);
+      event.respondWith(
+        new Response(res.body, {
+          status: res.status,
+          headers: {
+            ...Object.fromEntries(res.headers.entries()),
+            "x-origin-url": event.request.url,
+            "x-requested-url": origin.toString(),
+          },
+        }),
+      );
       return;
     }
     let dts = res.headers.get("x-typescript-types") ?? undefined;
