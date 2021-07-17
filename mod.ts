@@ -8,8 +8,8 @@ addEventListener("fetch", async (event) => {
   const url = new URL(event.request.url);
   const dts = url.searchParams.get("dts");
   if (!dts) {
-    const origin = url.pathname.startsWith("/_/")
-      ? new URL(url.pathname.substr(2), "https://cdn.esm.sh/")
+    const origin = /^v\d+\//.test(url.pathname)
+      ? new URL(url.pathname, "https://cdn.esm.sh/")
       : new URL(url.pathname, "https://esm.sh/");
     origin.search = url.search;
     const res = await fetch(origin, {
